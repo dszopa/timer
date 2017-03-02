@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Javascript - Timer</title>
+  <script type="text/javascript" src="timer.js"></script>
+  <link rel="stylesheet" href="timer.css">
+</head>
+<body>
+  <h1>Javascript Countdown Timer</h1>
+  <div id="clockdiv">
+    <form name="timeForm">
+      <div>
+        <input class="hours" type="text" name="hours"></input>
+        <div class="smalltext">Hours</div>
+      </div>
+      <div>
+        <input class="minutes" type="text" name="minutes"></input>
+        <div class="smalltext">Minutes</div>
+      </div>
+      <div>
+        <input class="seconds" type="text" name="seconds"></input>
+        <div class="smalltext">Seconds</div>
+      </div>
+    </form>
+  </div>
+  <div id="buttonDiv">
+    <a id="startBtn" class="btn">Start Timer</a>
+  </div>
+  <div id="options">
+    <div>
+      <input type="checkbox" id="repeat-chk-box" value="repeat">
+      <label for="repeat-chk-box">Repeat</label>
+    </div>
+    <div>
+      <input type="checkbox" id="lap-chk-box" value="lap">
+      <label for="lap-chk-box">Lap</label>
+    </div>
+  </div>
+</body>
+</html>

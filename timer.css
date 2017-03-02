@@ -1,0 +1,103 @@
+body{
+	text-align: center;
+	background: #00ECB9;
+  font-family: sans-serif;
+  font-weight: 100;
+}
+
+.colorchange {
+	-webkit-animation: colorchange 180s infinite;
+	animation: colorchange 180s infinite;
+}
+
+.pause-colorchange {
+	-webkit-animation-play-state: paused;
+	-moz-animation-play-state: paused;
+	-o-animation-play-state: paused;
+	animation-play-state: paused;
+}
+
+@keyframes colorchange {
+	0%   {background: #00ECB9;} /* material green */
+	10%  {background: #F44336;} /* material orange */
+	30%  {background: #9C27B0;} /* material purple */
+	50%  {background: #00BCD4;} /* material cyan */
+	70%  {background: #FFC107;} /* material amber */
+	90%  {background: #9E9E9E;} /* material gray */
+	100% {background: #00ECB9;} /* material green */
+}
+
+@-webkit-keyframes colorchange /* Safari and Chrome */ {
+	0%   {background: #00ECB9;} /* material green */
+	10%  {background: #F44336;} /* material orange */
+	30%  {background: #9C27B0;} /* material purple */
+	50%  {background: #00BCD4;} /* material cyan */
+	70%  {background: #FFC107;} /* material amber */
+	90%  {background: #9E9E9E;} /* material gray */
+	100% {background: #00ECB9;} /* material green */
+}
+
+h1{
+  color: white;
+  font-weight: 100;
+  font-size: 40px;
+  margin: 40px 0px 20px;
+}
+
+label {
+  color: white;
+  font-size: 16px;
+}
+
+#clockdiv{
+	font-family: sans-serif;
+	color: #fff;
+	display: inline-block;
+	font-weight: 100;
+	text-align: center;
+	font-size: 30px;
+  padding-bottom: 30px;
+}
+
+#clockdiv > form > div {
+	padding: 10px;
+	border-radius: 3px;
+	background: rgba(255,255,255, 0.3);
+	display: inline-block;
+}
+
+#clockdiv > form > div > input {
+	background: rgba(255, 255, 255, 0.3);
+  color: white;
+  font-size: 40px;
+  border: none;
+  width: 45px;
+  border-radius: 5px;
+  padding: 10px;
+	text-align: center;
+}
+
+.smalltext{
+	padding-top: 5px;
+	font-size: 16px;
+}
+
+#buttonDiv {
+  padding-bottom: 20px;
+}
+
+.btn {
+  background-color: rgba(255,255,255, 0.3);
+  color: white;
+  border: none;
+  font-size: 16px;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+#options > div {
+  padding: 10px;
+	border-radius: 5px;
+  display: inline-block;
+  background-color: rgba(255,255,255, 0.3);
+}
