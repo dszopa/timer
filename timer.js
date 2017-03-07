@@ -1,3 +1,8 @@
+/**
+ * A function that gets the amount of time between the date end time
+ * and the current time.
+ * @param {Date} endtime - The end time in a Date format.
+ */
 function getTimeRemaining(endtime) {
   var t = Date.parse(endtime) - Date.parse(new Date());
   var seconds = Math.floor((t / 1000) % 60);
@@ -11,24 +16,32 @@ function getTimeRemaining(endtime) {
   };
 }
 
+/**
+ * A function that "zero's" the clock. This involves setting all inputs
+ * to 00.
+ */
 function zeroClock() {
   var clock = document.getElementById("clockdiv");
-  var hoursSpan = clock.querySelector('.hours');
-  var minutesSpan = clock.querySelector('.minutes');
-  var secondsSpan = clock.querySelector('.seconds');
-
-  hoursSpan.setAttribute("value", '00');
-  minutesSpan.setAttribute("value", '00');
-  secondsSpan.setAttribute("value", '00');
+  clock.querySelector('.hours').value = '00';
+  clock.querySelector('.minutes').value = '00';
+  clock.querySelector('.seconds').value = '00';
 }
 
+/**
+ * Ends the specified interval, updates the button to "Start Timer",
+ * pauses color changing, and resets the clock.
+ * @param {setInterval} runningInterval - The ongoing interval to stop.
+ */
 function stopClockAndUpdate(runningInterval) {
+  clearInterval(runningInterval);  
   document.getElementById("startBtn").innerHTML = "Start Timer";
   document.body.setAttribute("class", "colorchange pause-colorchange");
   zeroClock();
-  clearInterval(runningInterval);
 }
 
+/**
+ * Returns a json list with the current hours, minutes, and seconds of the timer.
+ */
 function getTimeFormValues() {
   var timeFormElements = document.forms["timeForm"].getElementsByTagName("input");
   return {
@@ -39,15 +52,19 @@ function getTimeFormValues() {
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {
+  zeroClock();
+
   var deadline = new Date();
   var totalTime = 0;
-
-  zeroClock();
 
   var startTimer = null;
   var startbtn = document.getElementById("startBtn");
 
+
+
+
   function updateClock(endTime, options) {
+    console.log("Clock updated");
     var t = getTimeRemaining(endTime);
 
     var clock = document.getElementById("clockdiv");
@@ -80,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
       startTimer = setInterval(
         function() {
-          options = {"repeat": repeatBox.checked};
+          var options = {"repeat": repeatBox.checked};
           updateClock(deadline, options);
         }, 1000);
 
