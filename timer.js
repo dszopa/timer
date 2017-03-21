@@ -33,7 +33,7 @@ function zeroClock() {
  * @param {setInterval} runningInterval - The ongoing interval to stop.
  */
 function stopClockAndUpdate(runningInterval) {
-  clearInterval(runningInterval);  
+  clearInterval(runningInterval);
   document.getElementById("startBtn").innerHTML = "Start Timer";
   document.body.setAttribute("class", "colorchange pause-colorchange");
   zeroClock();
@@ -51,7 +51,19 @@ function getTimeFormValues() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", function(event) {
+/**
+ * Takes an input field and validates that it has surrounding 0's
+ * @param {Element} input - The corresponding input box to be validated
+ */
+function validateInput(input) {
+  if (input.value.length === 1) {
+    input.value = '0' + input.value;
+  } else if (input.value.length === 0) {
+    input.value = '00';
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function (event) {
   zeroClock();
 
   var deadline = new Date();
@@ -59,9 +71,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   var startTimer = null;
   var startbtn = document.getElementById("startBtn");
-
-
-
 
   function updateClock(endTime, options) {
     console.log("Clock updated");
@@ -82,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
   }
 
-  startbtn.onclick = function() {
+  startbtn.onclick = function () {
     if (startbtn.innerHTML === "Start Timer") {
 
       document.body.setAttribute("class", "colorchange");
@@ -90,14 +99,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
       var timeFormValues = getTimeFormValues();
       totalTime = (timeFormValues.hours * 60 * 60 * 1000) + (timeFormValues.minutes * 60 * 1000) +
-                      ((timeFormValues.seconds) * 1000);
+        ((timeFormValues.seconds) * 1000);
       deadline = new Date(Date.parse(new Date()) + totalTime);
 
       var repeatBox = document.getElementById("repeat-chk-box");
 
       startTimer = setInterval(
-        function() {
-          var options = {"repeat": repeatBox.checked};
+        function () {
+          var options = {
+            "repeat": repeatBox.checked
+          };
           updateClock(deadline, options);
         }, 1000);
 
@@ -106,6 +117,30 @@ document.addEventListener("DOMContentLoaded", function(event) {
       stopClockAndUpdate(startTimer)
     }
   }
-});
 
-// TODO cleanup and validate minutes/strings, also implement lap
+  var hoursInput = document.getElementById('hours');
+  var minutesInput = document.getElementById('minutes');
+  var secondsInput = document.getElementById('seconds');
+
+  // Set onfocus's to empty the input box
+  hoursInput.onfocus = function () {
+    hoursInput.value = '';
+  }
+  minutesInput.onfocus = function () {
+    minutesInput.value = '';
+  }
+  secondsInput.onfocus = function () {
+    secondsInput.value = '';
+  }
+
+  // If shorter than 2 add 0's
+  hoursInput.onblur = function () {
+    validateInput(hoursInput);
+  }
+  minutesInput.onblur = function () {
+    validateInput(minutesInput);
+  }
+  secondsInput.onblur = function () {
+    validateInput(secondsInput);
+  }
+});
