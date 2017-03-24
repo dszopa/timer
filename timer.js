@@ -22,9 +22,9 @@ function getTimeRemaining(endtime) {
  */
 function zeroClock() {
   var clock = document.getElementById("clockdiv");
-  clock.querySelector('.hours').value = '00';
-  clock.querySelector('.minutes').value = '00';
-  clock.querySelector('.seconds').value = '00';
+  clock.querySelector('#hours').value = '00';
+  clock.querySelector('#minutes').value = '00';
+  clock.querySelector('#seconds').value = '00';
 }
 
 /**
@@ -35,6 +35,7 @@ function zeroClock() {
 function stopClockAndUpdate(runningInterval) {
   clearInterval(runningInterval);
   document.getElementById("startBtn").innerHTML = "Start Timer";
+  document.getElementById('lapNumber').innerHTML = 0;
   document.body.setAttribute("class", "colorchange pause-colorchange");
   zeroClock();
 }
@@ -52,6 +53,14 @@ function getTimeFormValues() {
 }
 
 /**
+ * Returns true if there is time remaining on the clock.
+ * @param {TimeFormValue} timeFormValues - A json object of timeform values iwth hours, minutes, and seconds
+ */
+function isTimeRemaining(timeFormValues) {
+  return !(timeFormValues.hours === 0 && timeFormValues.minutes === 0 && timeFormValues.seconds === 0);
+}
+
+/**
  * Takes an input field and validates that it has surrounding 0's
  * @param {Element} input - The corresponding input box to be validated
  */
@@ -66,23 +75,45 @@ function validateInput(input) {
 document.addEventListener("DOMContentLoaded", function (event) {
   zeroClock();
 
+  // Define timer variables
   var deadline = new Date();
   var totalTime = 0;
 
   var startTimer = null;
   var startbtn = document.getElementById("startBtn");
 
+  var hoursInput = document.getElementById('hours');
+  var minutesInput = document.getElementById('minutes');
+  var secondsInput = document.getElementById('seconds');
+
+  // Add actions for onfocus and onblur to each timerInput
+  var timerInputs = document.getElementsByClassName('timerInput');
+  for (var i = 0; i < timerInputs.length; i++) {
+    var input = timerInputs.item(i);
+    // Set onfocus to empty the input box
+    input.onfocus = function () {
+      this.value = '';
+    }
+
+    // If shorter than 2, add 0's
+    input.onblur = function () {
+      validateInput(this);
+    }
+  }
+
+  // This function is within the onPageLoad event listener because it needs access to startTimer
   function updateClock(endTime, options) {
-    console.log("Clock updated");
-    var t = getTimeRemaining(endTime);
+    var timeRemaining = getTimeRemaining(endTime);
+    hoursInput.value = ('0' + timeRemaining.hours).slice(-2);
+    minutesInput.value = ('0' + timeRemaining.minutes).slice(-2);
+    secondsInput.value = ('0' + timeRemaining.seconds).slice(-2);
 
-    var clock = document.getElementById("clockdiv");
-    clock.querySelector('.hours').value = ('0' + t.hours).slice(-2);
-    clock.querySelector('.minutes').value = ('0' + t.minutes).slice(-2);
-    clock.querySelector('.seconds').value = ('0' + t.seconds).slice(-2);
-
-    if (t.total <= 0) {
+    if (timeRemaining.total <= 0) {
       if (options.repeat) {
+        if (options.lap) {
+          var lapNum = document.getElementById('lapNumber');
+          lapNum.innerHTML = parseInt(lapNum.innerHTML) + 1;
+        }
         // Add an extra second to start from original value.
         deadline = new Date(Date.parse(new Date()) + totalTime + (1000));
       } else {
@@ -92,55 +123,35 @@ document.addEventListener("DOMContentLoaded", function (event) {
   }
 
   startbtn.onclick = function () {
-    if (startbtn.innerHTML === "Start Timer") {
+    var timeFormValues = getTimeFormValues();
+    if (startbtn.innerHTML === "Start Timer" && isTimeRemaining(timeFormValues)) {
 
       document.body.setAttribute("class", "colorchange");
       startbtn.innerHTML = "Stop Timer";
 
-      var timeFormValues = getTimeFormValues();
       totalTime = (timeFormValues.hours * 60 * 60 * 1000) + (timeFormValues.minutes * 60 * 1000) +
         ((timeFormValues.seconds) * 1000);
       deadline = new Date(Date.parse(new Date()) + totalTime);
 
-      var repeatBox = document.getElementById("repeat-chk-box");
-
       startTimer = setInterval(
         function () {
           var options = {
-            "repeat": repeatBox.checked
+            "repeat": document.getElementById("repeat-chk-box").checked,
+            "lap": document.getElementById("lap-chk-box").checked
           };
           updateClock(deadline, options);
         }, 1000);
-
     } else {
-      // Kill Timer
       stopClockAndUpdate(startTimer)
     }
   }
 
-  var hoursInput = document.getElementById('hours');
-  var minutesInput = document.getElementById('minutes');
-  var secondsInput = document.getElementById('seconds');
-
-  // Set onfocus's to empty the input box
-  hoursInput.onfocus = function () {
-    hoursInput.value = '';
-  }
-  minutesInput.onfocus = function () {
-    minutesInput.value = '';
-  }
-  secondsInput.onfocus = function () {
-    secondsInput.value = '';
-  }
-
-  // If shorter than 2 add 0's
-  hoursInput.onblur = function () {
-    validateInput(hoursInput);
-  }
-  minutesInput.onblur = function () {
-    validateInput(minutesInput);
-  }
-  secondsInput.onblur = function () {
-    validateInput(secondsInput);
+  // Toggle display of lapDiv
+  document.getElementById('lap-chk-box').onclick = function () {
+    if (this.checked) {
+      document.getElementById('lapDiv').setAttribute('class', '');
+    } else {
+      document.getElementById('lapDiv').setAttribute('class', 'hidden');
+    }
   }
 });

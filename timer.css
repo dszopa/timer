@@ -21,6 +21,10 @@ body{
 	animation-play-state: paused;
 }
 
+.hidden {
+	display: none;
+}
+
 @keyframes colorchange {
 	0%   {background: #00ECB9;} /* material green */
 	10%  {background: #F44336;} /* material orange */
@@ -103,4 +107,14 @@ label {
 	border-radius: 5px;
   display: inline-block;
   background-color: rgba(100, 100, 100, 0.2);
+}
+
+/* Remove Spinner styling */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
 }

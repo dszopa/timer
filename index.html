@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Javascript - Timer</title>
   <script type="text/javascript" src="timer.js"></script>
   <link rel="stylesheet" href="timer.css">
@@ -14,15 +15,15 @@
     <div id="clockdiv">
       <form name="timeForm">
         <div>
-          <input id="hours" class="hours" type="text" name="hours" maxlength="2"></input>
+          <input id="hours" class="timerInput" type="number" min="0" max="99" step="1" name="hours" maxlength="2"></input>
           <div class="smalltext">Hours</div>
         </div>
         <div>
-          <input id="minutes" class="minutes" type="text" name="minutes" maxlength="2"></input>
+          <input id="minutes" class="timerInput" type="number" min="0" max="99" step="1" name="minutes" maxlength="2"></input>
           <div class="smalltext">Minutes</div>
         </div>
         <div>
-          <input id="seconds" class="seconds" type="text" name="seconds" maxlength="2"></input>
+          <input id="seconds" class="timerInput" type="number" min="0" max="99" step="1" name="seconds" maxlength="2"></input>
           <div class="smalltext">Seconds</div>
         </div>
       </form>
@@ -39,6 +40,9 @@
     </div>
     <div id="buttonDiv">
       <button id="startBtn" class="btn">Start Timer</button>
+    </div>
+    <div id="lapDiv" class="hidden">
+      <h1>Lap: <span id="lapNumber">0</span></h1>
     </div>
   </div>
 </body>
